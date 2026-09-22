@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flores Amarillas 🌻</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;background:#020611}
+.inicio{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;justify-content:center;align-items:center;background:radial-gradient(circle at center,#203955 0%,#0b1829 45%,#020611 100%);transition:opacity 1.5s ease,visibility 1.5s}
+.inicio.oculto{opacity:0;visibility:hidden;pointer-events:none}
+.corazon-inicio{font-size:80px;animation:latido 1.5s infinite}
+.inicio h1{margin-top:15px;color:white;font-size:clamp(30px,6vw,55px);text-align:center}
+.inicio p{color:#d9e4f0;margin:15px 20px 30px;text-align:center;font-size:18px}
+.boton{border:none;padding:17px 38px;border-radius:50px;background:linear-gradient(135deg,#fff176,#ffd600);color:#332800;font-size:18px;font-weight:bold;cursor:pointer;box-shadow:0 0 15px #ffd600,0 0 40px rgba(255,214,0,.35);transition:.3s}
+.boton:hover{transform:scale(1.08);box-shadow:0 0 20px #fff176,0 0 55px rgba(255,214,0,.6)}
+.escena{position:relative;width:100%;height:100vh;overflow:hidden;background:linear-gradient(to bottom,#020510 0%,#061126 45%,#09221f 75%,#102d20 100%)}
+.escena::after{content:"";position:absolute;bottom:0;left:0;width:100%;height:45%;background:radial-gradient(ellipse at bottom,rgba(41,100,61,.35),transparent 70%);pointer-events:none}
+.luna{position:absolute;top:8%;right:12%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fffde8 0%,#fff8c5 45%,#e9dfae 100%);box-shadow:0 0 20px rgba(255,248,200,.9),0 0 60px rgba(255,248,200,.5),0 0 120px rgba(255,248,200,.25);z-index:3;animation:aparecerLuna 3s ease forwards}
+.luna::before{content:"";position:absolute;width:25px;height:25px;top:35px;left:35px;border-radius:50%;background:rgba(170,160,125,.13);box-shadow:55px 15px 0 5px rgba(170,160,125,.10),20px 65px 0 8px rgba(170,160,125,.10),65px 70px 0 -3px rgba(170,160,125,.12)}
+@keyframes aparecerLuna{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.estrella{position:absolute;width:var(--tam);height:var(--tam);background:white;border-radius:50%;box-shadow:0 0 7px white;animation:estrellaBrilla var(--duracion) infinite alternate}
+@keyframes estrellaBrilla{from{opacity:.15;transform:scale(.7)}to{opacity:1;transform:scale(1.3)}}
+.titulo{position:absolute;top:7%;left:50%;transform:translate(-50%,-30px);width:90%;text-align:center;color:#fff7a0;opacity:0;z-index:20;transition:2s}
+.titulo.visible{opacity:1;transform:translate(-50%,0)}
+.titulo h1{font-size:clamp(30px,5vw,55px);text-shadow:0 0 10px #ffd600,0 0 30px rgba(255,214,0,.45)}
+.titulo p{margin-top:10px;color:white;font-size:17px}
+.flor{position:absolute;bottom:3%;left:var(--x);transform:translateX(-50%) scale(var(--escala));transform-origin:bottom center;z-index:10}
+.tallo{position:relative;width:8px;height:var(--alto);border-radius:10px;background:linear-gradient(to right,#145f29,#4ab657,#126027);transform-origin:bottom;transform:scaleY(0)}
+.tallo.creciendo{animation:crecerTallo 2s ease-out forwards}
+@keyframes crecerTallo{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.hoja{position:absolute;width:60px;height:30px;background:linear-gradient(135deg,#69d06e,#1b7c32);opacity:0;box-shadow:inset 0 0 7px rgba(255,255,255,.15)}
+.hoja.izquierda{bottom:35%;right:5px;border-radius:100% 0 100% 0;transform-origin:right bottom}
+.hoja.derecha{bottom:58%;left:5px;border-radius:0 100% 0 100%;transform-origin:left bottom}
+.tallo.creciendo .hoja{animation:crecerHoja .9s 1.1s forwards}
+@keyframes crecerHoja{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.cabeza{position:absolute;width:140px;height:140px;top:-70px;left:50%;transform:translateX(-50%) scale(0);z-index:5}
+.tallo.creciendo .cabeza{animation:florecer 1.5s 1.8s cubic-bezier(.18,.8,.35,1.4) forwards}
+@keyframes florecer{0%{transform:translateX(-50%) scale(0) rotate(-15deg)}70%{transform:translateX(-50%) scale(1.12) rotate(4deg)}100%{transform:translateX(-50%) scale(1) rotate(0)}}
+.petalo{position:absolute;width:40px;height:75px;left:50px;top:-3px;border-radius:60% 60% 45% 45%;transform-origin:20px 72px;transform:rotate(var(--rotacion));background:linear-gradient(to bottom,#fff984,#ffe000 55%,#ffb300 100%);box-shadow:0 0 8px rgba(255,224,0,.45),inset 0 0 8px rgba(255,255,255,.35)}
+.centro{position:absolute;width:66px;height:66px;left:37px;top:37px;border-radius:50%;z-index:8;background:radial-gradient(circle at 35% 30%,#c48a35,#7a4817 55%,#3d210b);box-shadow:0 0 12px rgba(255,190,0,.8),inset 0 0 12px #291607}
+.suelo{position:absolute;bottom:-55px;left:-10%;width:120%;height:130px;border-radius:50% 50% 0 0;background:linear-gradient(to top,#020b06,#0d3b20,#18592e);z-index:5}
+.luciernaga{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff68a;box-shadow:0 0 8px #fff200,0 0 18px #ffe600,0 0 30px rgba(255,230,0,.7);z-index:15;animation:volar var(--tiempo) infinite ease-in-out,parpadear 1.4s infinite alternate}
+@keyframes volar{0%{transform:translate(0,0)}20%{transform:translate(30px,-40px)}40%{transform:translate(-20px,-90px)}60%{transform:translate(45px,-140px)}80%{transform:translate(-30px,-190px)}100%{transform:translate(15px,-250px)}}
+@keyframes parpadear{0%{opacity:.15}50%{opacity:1}100%{opacity:.4}}
+.mensaje-final{position:fixed;top:50%;left:50%;width:min(90%,620px);padding:35px 30px;transform:translate(-50%,-50%) scale(.75);border-radius:25px;text-align:center;color:white;background:rgba(3,10,20,.87);backdrop-filter:blur(12px);border:1px solid rgba(255,222,60,.4);box-shadow:0 0 25px rgba(255,214,0,.25),0 0 70px rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:1.3s ease;z-index:100}
+.mensaje-final.visible{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.mensaje-final h2{margin-bottom:20px;color:#ffe550;font-size:clamp(27px,5vw,42px)}
+.mensaje-final p{font-size:clamp(16px,2vw,20px);line-height:1.7}
+.tqm{margin-top:20px;font-size:35px;animation:latido 1.3s infinite}
+.boton-cerrar{margin-top:22px;padding:11px 25px;border:none;border-radius:30px;background:#ffd600;color:#332800;font-weight:bold;cursor:pointer}
+@keyframes latido{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@media(max-width:700px){.luna{width:95px;height:95px;top:13%;right:7%}.titulo{top:4%}.titulo h1{font-size:30px}.flor{transform:translateX(-50%) scale(calc(var(--escala) * .75))}}
+</style>
+</head>
+<body>
+<div class="inicio" id="inicio">
+  <div class="corazon-inicio">💛</div>
+  <h1>Tengo algo para ti...</h1>
+  <p>Pero tendrás que descubrirlo 👀</p>
+  <button class="boton" onclick="iniciarSorpresa()">Descúbrelo 💛</button>
+</div>
+
+<div class="escena" id="escena">
+  <div class="luna"></div>
+  <div class="titulo" id="titulo">
+    <h1>🌻 Flores Amarillas 🌻</h1>
+    <p>Un pequeño detalle para tu día 💛</p>
+  </div>
+  <div class="suelo"></div>
+</div>
+
+<div class="mensaje-final" id="mensajeFinal">
+  <h2>Para ti 🌻</h2>
+  <p>
+    Te doy estas flores amarillas en tu día para que no seas espectadora
+    y me presumas, de paso, de este chico guapo programando. 😎💻
+    <br><br>
+    Espero que te gusten mucho.
+  </p>
+  <div class="tqm">TQM 💛</div>
+  <button class="boton-cerrar" onclick="cerrarMensaje()">Ver mis flores 🌻</button>
+</div>
+
+<script>
+const escena=document.getElementById("escena");
+const inicio=document.getElementById("inicio");
+const titulo=document.getElementById("titulo");
+const mensajeFinal=document.getElementById("mensajeFinal");
+
+for(let i=0;i<100;i++){
+  const estrella=document.createElement("div");
+  estrella.className="estrella";
+  estrella.style.left=Math.random()*100+"%";
+  estrella.style.top=Math.random()*70+"%";
+  estrella.style.setProperty("--tam",(1+Math.random()*3)+"px");
+  estrella.style.setProperty("--duracion",(1+Math.random()*3)+"s");
+  estrella.style.animationDelay=Math.random()*3+"s";
+  escena.appendChild(estrella);
+}
+
+const flores=[
+{x:"5%",alto:"210px",escala:.60},{x:"14%",alto:"270px",escala:.70},
+{x:"24%",alto:"330px",escala:.82},{x:"35%",alto:"270px",escala:.72},
+{x:"45%",alto:"370px",escala:.92},{x:"54%",alto:"410px",escala:1},
+{x:"64%",alto:"320px",escala:.82},{x:"74%",alto:"350px",escala:.88},
+{x:"84%",alto:"280px",escala:.72},{x:"94%",alto:"230px",escala:.63}
+];
+const tallos=[];
+
+flores.forEach(datos=>{
+  const flor=document.createElement("div");
+  flor.className="flor";
+  flor.style.setProperty("--x",datos.x);
+  flor.style.setProperty("--alto",datos.alto);
+  flor.style.setProperty("--escala",datos.escala);
+
+  const tallo=document.createElement("div");
+  tallo.className="tallo";
+
+  const hoja1=document.createElement("div");
+  hoja1.className="hoja izquierda";
+  const hoja2=document.createElement("div");
+  hoja2.className="hoja derecha";
+  tallo.appendChild(hoja1);
+  tallo.appendChild(hoja2);
+
+  const cabeza=document.createElement("div");
+  cabeza.className="cabeza";
+
+  for(let i=0;i<16;i++){
+    const petalo=document.createElement("div");
+    petalo.className="petalo";
+    petalo.style.setProperty("--rotacion",(i*(360/16))+"deg");
+    cabeza.appendChild(petalo);
+  }
+
+  const centro=document.createElement("div");
+  centro.className="centro";
+  cabeza.appendChild(centro);
+  tallo.appendChild(cabeza);
+  flor.appendChild(tallo);
+  escena.appendChild(flor);
+  tallos.push(tallo);
+});
+
+for(let i=0;i<30;i++){
+  const luciernaga=document.createElement("div");
+  luciernaga.className="luciernaga";
+  luciernaga.style.left=(Math.random()*95)+"%";
+  luciernaga.style.top=(55+Math.random()*40)+"%";
+  luciernaga.style.setProperty("--tiempo",(5+Math.random()*6)+"s");
+  luciernaga.style.animationDelay=(Math.random()*7)+"s";
+  escena.appendChild(luciernaga);
+}
+
+function iniciarSorpresa(){
+  inicio.classList.add("oculto");
+  setTimeout(()=>titulo.classList.add("visible"),900);
+
+  tallos.forEach((tallo,indice)=>{
+    setTimeout(()=>tallo.classList.add("creciendo"),1300+indice*420);
+  });
+
+  const tiempoFinal=1300+tallos.length*420+3800;
+  setTimeout(()=>mensajeFinal.classList.add("visible"),tiempoFinal);
+}
+
+function cerrarMensaje(){
+  mensajeFinal.classList.remove("visible");
+}
+</script>
+</body>
+</html>
